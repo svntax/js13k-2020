@@ -6,12 +6,14 @@ export class Terrain {
         this.el.setAttribute('position', {
             x: 0,
             y: 0,
-            z: -6
+            z: -3
         });
 
-        this.material = new THREE.MeshStandardMaterial({color: 0xfacade});
+        this.material = new THREE.MeshPhongMaterial({color: 0xffffff});
 
-        var geometry = new THREE.PlaneGeometry(10,10,9,9);
+        this.terrainWidth = 10;
+        this.terrainHeight = 10;
+        var geometry = new THREE.PlaneGeometry(this.terrainWidth,this.terrainHeight,9,9);
         var plane = new THREE.Mesh(geometry, this.material);
 
         // Set height of vertices
@@ -33,20 +35,52 @@ export class Terrain {
 
         this.scene.appendChild(this.el);
 
-        this.digTimer = 0;
+        var el = this.el;
+        var self = this;
+        el.addEventListener('click', function (evt) {
+            var geom = el.getObject3D("mesh").geometry;
+
+            // Transform the intersection point to the relative position
+            var point = evt.detail.intersection.point;
+            // Origin is the middle of the plane, so convert to top-left
+            var pointInPlane = {
+                x: Math.floor(point.x + self.terrainWidth / 2),
+                y: Math.floor(self.terrainHeight - point.y - (self.terrainHeight / 2))
+            };
+
+            // Dig into the terrain
+            self.dig(geom.vertices, pointInPlane.x, pointInPlane.y);
+            geom.verticesNeedUpdate = true;
+        });
+    }
+
+    dig(vertices, vx, vy){
+        // Loop through the vertex and its neighbors
+        for(var i = -1; i <= 1; i++){
+            for(var j = -1; j <= 1; j++){
+                var index = this.pointToIndex(vx + i, vy + j);
+                if(index >= 0 && index < vertices.length){
+                    if(i == 0 && j == 0){
+                        // Center gets the most offset
+                        vertices[index].z -= 0.5;
+                    }
+                    else if(Math.abs(i) == 1 && Math.abs(j) == 1){
+                        // Corners get the least offset
+                        vertices[index].z -= 0.1;
+                    }
+                    else{
+                        vertices[index].z -= 0.3;
+                    }
+                }
+            }
+        }
+    }
+
+    pointToIndex(x, y){
+        return y * this.terrainHeight + x;
     }
 
     update(time, timeDelta) {
-        // TODO: placeholder vertices editing test
-        this.digTimer += timeDelta;
-        if(this.digTimer > 2000){
-            this.digTimer = 0;
-            var mesh = this.el.getObject3D("mesh");
-            var geom = mesh.geometry;
-            geom.vertices[0].z = Math.random() * 1;
-            geom.vertices[1].z = Math.random() * 1;
-            geom.verticesNeedUpdate = true;
-            console.log(geom.vertices[0].z);
-        }
+        
     }
 }

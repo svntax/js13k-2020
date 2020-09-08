@@ -14,7 +14,7 @@ AFRAME.registerSystem('game', {
            depth: 2
         });
 
-        this.terrain = new Terrain(0, 0, 0);
+        this.terrain = new Terrain();
     },
 
     tick(time, timeDelta){
