@@ -24,6 +24,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+      inject: false,
       minify: isProduction && {
         collapseWhitespace: true,
         removeComments: true,

@@ -1,12 +1,10 @@
 import {Box} from "../entities/Box";
-import { Terrain } from "../entities/Terrain";
+import {Terrain} from "../entities/Terrain";
 
 AFRAME.registerSystem('game', {
     schema: {},
 
     init: function () {
-        console.log('Game Initialized');
-
         // Example summon a custom entity
         this.box = new Box(0, -2, -5, {
            width: 2,
@@ -18,7 +16,6 @@ AFRAME.registerSystem('game', {
     },
 
     tick(time, timeDelta){
-        // Your gameloop code
         this.box.update(time, timeDelta);
         this.terrain.update(time, timeDelta);
     }
