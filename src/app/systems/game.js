@@ -16,7 +16,6 @@ AFRAME.registerSystem('game', {
     },
 
     tick(time, timeDelta){
-        this.box.update(time, timeDelta);
         this.terrain.update(time, timeDelta);
     }
 });

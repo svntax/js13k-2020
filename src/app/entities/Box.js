@@ -34,8 +34,4 @@ export class Box {
         
         this.scene.appendChild(this.el);
     }
-
-    update(time, timeDelta) {
-        
-    }
 }

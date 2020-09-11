@@ -1,6 +1,7 @@
 import {Box} from "../entities/Box";
 
 import {randRange} from "../main.js";
+import {zzfx} from "../zzfx.js";
 
 export class Terrain {
     constructor(x, y, z) {
@@ -66,6 +67,8 @@ export class Terrain {
     }
 
     dig(vertices, vx, vy){
+        // Note: spread syntax isn't working in the production build, avoid using
+        zzfx(1,.05,740,0,.01,.2,4,32,1,.5,0,0,0,.3,0,.8,.07,.62,.02,.22);
         // Loop through the vertex and its neighbors
         for(var i = -1; i <= 1; i++){
             for(var j = -1; j <= 1; j++){

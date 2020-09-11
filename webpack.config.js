@@ -18,6 +18,22 @@ module.exports = {
             loader: 'css-loader'
           }
         ]
+      },
+      {
+        test: require.resolve("./src/app/zzfx.js"),
+        loader: 'exports-loader',
+        options: {
+          type: "commonjs", // module doesn't work for some reason, so use commonjs
+          exports: ["zzfx", "zzfxP", "zzfxG", "zzfxV", "zzfxR", "zzfxX"]
+        }
+      },
+      {
+        test: require.resolve("./src/app/zzfxm.min.js"),
+        loader: 'exports-loader',
+        options: {
+          type: "commonjs",
+          exports: "zzfxM"
+        }
       }
     ]
   },
