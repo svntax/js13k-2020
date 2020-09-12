@@ -4,6 +4,19 @@ export function randRange(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+AFRAME.registerComponent("hand-tool", {
+	init: function () {
+		var el = this.el;
+		el.addEventListener("controllerconnected", function (evt) {
+			// Controllers connected, remove the gaze cursor
+			var gazeCursor = document.getElementById("gaze-cursor");
+			if(gazeCursor){
+				gazeCursor.parentNode.removeChild(gazeCursor);
+			}
+		});
+	} 
+});
+
 AFRAME.registerComponent("debris", {
     schema: {
         duration: {type: "number", default: 1}

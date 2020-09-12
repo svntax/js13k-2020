@@ -11,7 +11,7 @@ export class Terrain {
         this.el.setAttribute("position", {
             x: 0,
             y: 0,
-            z: -3
+            z: -5
         });
 
         this.material = new THREE.MeshPhongMaterial({color: 0xffffff});
@@ -39,6 +39,7 @@ export class Terrain {
         plane.material.vertexColors = THREE.FaceColors;
 
         this.scene.appendChild(this.el);
+        this.el.classList.add("clickables");
 
         // Set up particle colors
         this.digParticleColors = [0xf6d7b0, 0xf2d2a9, 0xeccca2, 0xe7c496, 0xe1bf92];
