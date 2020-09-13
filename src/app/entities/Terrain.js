@@ -1,4 +1,5 @@
 import {Box} from "../entities/Box";
+import {Treasure} from "./Treasure";
 
 import {randRange} from "../main.js";
 import {zzfx} from "../zzfx.js";
@@ -23,7 +24,7 @@ export class Terrain {
 
         // Set height of vertices
         for(var i = 0; i < plane.geometry.vertices.length; i++){
-            plane.geometry.vertices[i].z = Math.random() * 1;
+            plane.geometry.vertices[i].z = Math.random();
         }
         
         this.el.setObject3D("mesh", plane);
@@ -46,7 +47,7 @@ export class Terrain {
 
         var el = this.el;
         var self = this;
-        el.addEventListener("click", function (evt) {
+        el.addEventListener("click", function(evt){
             var geom = el.getObject3D("mesh").geometry;
 
             // Transform the intersection point to the relative position
@@ -65,6 +66,27 @@ export class Terrain {
             self.dig(geom.vertices, pointInPlane.x, pointInPlane.y);
             geom.verticesNeedUpdate = true;
         });
+
+        // Spawn treasures
+        var count = Math.floor(Math.random()*5+4);
+        for(var i = 0; i < count; i++){
+            var r = Math.random();
+            var treasureType;
+            var depthMin;
+            if(r <= .7){
+                treasureType = 0;
+            }
+            else if(r <= .9){
+                treasureType = 1;
+            }
+            else{
+                treasureType = 2;
+            }
+            var treasure = new Treasure(randRange(-4, 4), randRange(-4, 4), randRange(-10, -4), treasureType);
+        }
+        // Add at least a blue and purple treasure
+        var purpleTreasure = new Treasure(randRange(-4, 4), randRange(-4, 4), randRange(-10, -8), 2);
+        var blueTreasure = new Treasure(randRange(-4, 4), randRange(-4, 4), randRange(-8, -6), 1);
     }
 
     dig(vertices, vx, vy){

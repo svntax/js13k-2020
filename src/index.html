@@ -10,7 +10,7 @@
             <a-sky color="#6495ed"></a-sky>
 
             <a-camera wasd-controls-enabled="false">
-                <a-entity cursor="fuse: false" id="gaze-cursor"
+                <a-entity cursor="fuse: false" id="gaze-cursor" raycaster="objects: .clickables; far: 12"
                     position="0 0 -.9"
                     geometry="primitive: ring; radiusInner: .01; radiusOuter: .02"
                     material="color: black; shader: flat">

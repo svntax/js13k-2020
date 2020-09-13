@@ -76,3 +76,33 @@ AFRAME.registerComponent("velocity", {
 		}
 	}
 });
+
+AFRAME.registerComponent("collectable", {
+	schema: {
+		rotationSpeed: {type: "number"},
+		collected: {type: "boolean", default: false}
+	},
+
+	init: function(){
+		var data = this.data;
+		var el = this.el;
+		// Randomize the starting rotation
+		el.object3D.rotation.y += Math.random() * 2 * Math.PI;
+		el.object3D.rotation.y %= 360;
+		this.el.removalTimer = 0;
+	},
+	
+	tick: function(time, deltaTime){
+		var data = this.data;
+		var el = this.el;
+		el.object3D.rotation.y += THREE.Math.degToRad((data.rotationSpeed)) * (deltaTime / 1000);
+		el.object3D.rotation.y %= 360;
+		if(data.collected){
+			el.removalTimer += (deltaTime / 1000);
+			if(el.removalTimer >= 1.5){
+				el.removalTimer = 0;
+				el.parentNode.removeChild(el);
+			}
+		}
+	}
+});
